@@ -1,0 +1,2 @@
+# DistrAC
+Distributed Associative Classification
