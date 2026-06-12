@@ -1,0 +1,40 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "sklearn1"
+version = "1.0.0"
+description = ""
+license = "Apache-2.0"
+dependencies = [
+    "flwr[simulation]>=1.18.0",
+    "flwr-datasets[vision]>=0.5.0",
+    "scikit-learn>=1.6.1",
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["."]
+
+[tool.flwr.app]
+publisher = "rveroneze"
+
+[tool.flwr.app.components]
+serverapp = "sklearn1.server_app:app"
+clientapp = "sklearn1.client_app:app"
+
+[tool.flwr.app.config]
+num-server-rounds = 4
+save-each-rounds = 500
+local-epochs = 1
+model-sklearn = "LogisticRegression()"
+id-uci = 14
+seed-random-state = 42
+
+[tool.flwr.federations]
+default = "local-simulation"
+
+[tool.flwr.federations.local-simulation]
+options.num-supernodes = 2
+options.backend.client-resources.num-cpus = 1 # each ClientApp assumes to use 1 CPU (default is 2)
+options.backend.client-resources.num-gpus = 0.0 # no GPU access to the ClientApp (default is 0.0)
