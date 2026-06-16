@@ -17,17 +17,16 @@ from sklearn.metrics import accuracy_score, balanced_accuracy_score
 from sklearn1.task import get_model, set_model_params
 
 
-# # # NEEDS TO RUN THAT BEFORE OUTSIDE HERE or do the EXPORT:
+# # ###############################################################################
+# # # IN SPYDER: NEEDS TO RUN THAT BEFORE OUTSIDE HERE:
 # # import sys
 # # sys.path.append(os.path.expanduser("~/Documents/github/AIDE/codes"))
-
-# # ###############################################################################
+# # OR DO THE EXPORT:
 # # Tells Python where your project root is for your current terminal session
 # # It allows imports to work without complex build files.
 # # On Linux/macOS, run the command:
 # # export PYTHONPATH=/home/veroneze/Documents/github/AIDE/codes
 # # => Replace /path/to/your/project/root with your actual path
-# from common.my_utils import get_data_uci
 # # ###############################################################################
 
 
