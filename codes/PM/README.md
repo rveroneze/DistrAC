@@ -82,4 +82,6 @@ python ACs_dist_predictions.py 14 2
                                            ACs_dist_predictions.py
 ```
 
-> **Note:** The output paths for saved files are configured inside each script — adjust them to match your directory structure before running.
+> **Note 1:** The output paths for saved files are configured inside each script — adjust them to match your directory structure before running.
+
+> **Note 2:** The files ending in **_noniid** contain the scripts used for the preliminary experiments on non-IID data partitioning with quantity skew.
