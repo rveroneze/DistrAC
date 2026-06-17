@@ -238,51 +238,6 @@ def extract_history(filepath):
     return centralized_losses, acc, bacc
 
 
-def get_data_uci(id_uci, encoder='one-hot', seed=42, X_to_numpy=True):
-    #dataset = fetch_ucirepo(id=id_uci)
-    """
-    Sometimes, I am facing problems of connection with UCI repository.
-    So, I saved the datasets.
-    """
-    with open(f"../../datasets/uci_{id_uci}.pkl", "rb") as f:
-        dataset = pickle.load(f)
-    
-    X0 = dataset.data.features
-    y = dataset.data.targets
-    
-    # Assures all non-null values are strings while keeping NaNs:
-    X0 = X0.apply(lambda col: col.map(lambda x: str(x) if pd.notnull(x) else x))
-    
-    if encoder=='one-hot':
-        # Convert categorical variable into dummy/indicator variables (one-hot enconding):
-        X = pd.get_dummies(X0)
-        y = y.to_numpy().ravel()
-    elif encoder=='ordinal':
-        # Encode categorical features as an integer array:
-        enc = OrdinalEncoder(encoded_missing_value=MV_RINCLOSE, dtype=np.int32)
-        enc.fit(X0)
-        X = enc.transform(X0)
-        y = enc.fit_transform(y).ravel()
-    else:
-        X = X0
-        y = y.to_numpy().ravel()
-    if X_to_numpy:
-        X = X.to_numpy()
-    
-    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=seed, shuffle=True)
-    #X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=seed, shuffle=True, stratify=y)
-    classes = np.unique(y_train)
-    
-    # sklearn>=1.7.0 (https://scikit-learn.org/stable/whats_new/v1.7.html#version-1-7-0):
-    # log_loss now raises a ValueError if values of y_true are missing in the parameter labels
-    # So, I am removing these instances from X_test and y_test
-    mask = np.isin(y_test, classes) # boolean mask: True where y_test is in y_train
-    X_test_filtered = X_test[mask]
-    y_test_filtered = y_test[mask]
-
-    return dataset.metadata['name'], X_train, X_test_filtered, y_train, y_test_filtered, classes
-
-
 # Data Quantity Skew
 def get_partitions_quantity_skew(X_train, y_train, nsites, seed, alpha=0.05):
     rng = np.random.default_rng(seed)
